@@ -7,6 +7,6 @@ group1 = group.sample([2, 3, 4].sample).sort
 # 全体からグループ1を引いてグループ2を作る 
 group2 = group - group1
 
-# 結果を表示する
+# 結果を表示
 p group1
 p group2  
