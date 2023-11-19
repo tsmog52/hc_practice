@@ -1,38 +1,36 @@
-#テキストファイルを受け取る
 x = nil
 y = nil
 
-File.open("case_1.txt") do |f|
+File.open("case_2.txt") do |f|
   x = f.gets.chomp.split(',').map(&:to_i)
   y = f.gets.chomp.split(',').map(&:to_i)
 end
 
-# #配列の用意
 score = []
 
-# # xとyの値から差分を求める
+# SCORE_MAPPINGを定義
+SCORE_MAPPING = {
+  -4 => "コンドル",
+  -3 => "アルバトロス",
+  -2 => "イーグル",
+  -1 => "バーディ",
+  0 => "パー",
+  1 => "ボギー",
+}
+
+# 先にホールインワンと2ボギー以上をif文で分岐して、それ以外は、SCORE_MAPPINGを呼び出す
+def calculate_scores(x, y)
+  SCORE_MAPPING[y - x]
+end
+
 x.zip(y).each do |x, y|
-  case
-  when y == 1 &&  !(x == 5)
+  if y == 1 && x != 5
     score << "ホールインワン"
-  when y - x == 0 
-    score << "パー" 
-  when y - x == 1
-    score << "ボギー"
-  when y - x == -1
-    score << "バーディー"
-  when y - x == -2
-    score << "イーグル"
-  when y - x == -3
-    score << "アルバトロス"
-  when y - x == -4
-    score << "コンドル"
-  else 
+  elsif y - x >= 2
     score << "#{y - x}ボギー"
+  else
+    score << calculate_scores(x, y)
   end
 end
 
 puts score.join(",")
-
-
-
